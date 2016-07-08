@@ -23,7 +23,17 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.os.Bundle;
+
 import org.cocos2dx.lib.Cocos2dxActivity;
+import com.unity3d.ads.UnityAds;
 
 public class AppActivity extends Cocos2dxActivity {
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        final UnityAdsListener unityAdsListener = new UnityAdsListener();
+        UnityAdsJNI.activity = this;
+        UnityAdsJNI.unityAdsListener = unityAdsListener;
+    }
 }

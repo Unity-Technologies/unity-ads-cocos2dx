@@ -26,7 +26,9 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
+
+    this->initUnityAdsFunc();
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -83,4 +85,19 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void HelloWorld::initUnityAdsFunc()
+{
+    UnityAdsInit();
+}
+
+void HelloWorld::showUnityAdsFunc(Ref* pSender)
+{
+    const char* zoneString = "rewardedVideo";
+    if(UnityAdsIsReady(zoneString)) {
+        UnityAdsShow(zoneString);
+    } else {
+        CCLOG("[UnityAds cpp test] yet cannot show");
+    }
 }

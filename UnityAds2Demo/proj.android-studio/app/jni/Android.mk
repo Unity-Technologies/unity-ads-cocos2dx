@@ -11,10 +11,12 @@ LOCAL_MODULE := cocos2dcpp_shared
 LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
+                   hellocpp/UnityAdsJNI.cpp \
                    ../../../Classes/AppDelegate.cpp \
                    ../../../Classes/HelloWorldScene.cpp
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
+                    hellocpp/UnityAdsJNI.h
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END
