@@ -1,1 +1,1 @@
-# UnityAds2-Cocos2dx
+# UnityAds SDK 2.0 and Cocos2dx Integration
