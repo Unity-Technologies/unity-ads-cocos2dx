@@ -6,6 +6,10 @@
 
 class HelloWorld : public cocos2d::Layer
 {
+
+private:
+    cocos2d::Label* titleLabel;
+
 public:
     static cocos2d::Scene* createScene();
 
@@ -18,6 +22,7 @@ public:
     CREATE_FUNC(HelloWorld);
 
     // Unity Ads
+    void rewardPlayer(const char *placementId);
     void initUnityAdsFunc();
     void showUnityAdsFunc(Ref* pSender);
 };

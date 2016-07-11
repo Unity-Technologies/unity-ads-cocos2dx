@@ -20,6 +20,22 @@ using namespace cocos2d;
 extern "C" {
 #endif
 
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_UnityAdsJNI_reward (JNIEnv * env, jobject jobj, jstring zoneid)
+    {
+        char* ret = NULL;
+		ret = jstringTostring(env, zoneid);
+
+        LOGD("placement id = %s", ret);
+
+        auto scene = Director::getInstance()->getRunningScene()->getChildren().at(1);
+
+        if (typeid(*scene) == typeid(HelloWorld)) {
+            static_cast<HelloWorld*>(scene)->rewardPlayer(ret);
+        } else {
+            LOGD("gameScene is still NULL");
+        }
+    }
+
 	static char* jstringTostring(JNIEnv* env, jstring jstr)
 	{
 		char* rtn = NULL;

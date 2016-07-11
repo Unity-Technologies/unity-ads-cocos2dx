@@ -50,20 +50,34 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+
+
+    // Add show ad button
+    auto showAdItem = MenuItemImage::create(
+                                           "UnityChan_logo.png",
+                                           "UnityChan_logo.png",
+                                           CC_CALLBACK_1(HelloWorld::showUnityAdsFunc, this));
+
+    showAdItem->setPosition(Vec2(origin.x + showAdItem->getContentSize().width/2 ,
+                                origin.y + showAdItem->getContentSize().height/2));
+
+    menu->addChild(showAdItem, 1);
+
+
     /////////////////////////////
     // 3. add your codes below...
 
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto titleLabel = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     
     // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
+    titleLabel->setPosition(Vec2(origin.x + visibleSize.width/2,
+                            origin.y + visibleSize.height - titleLabel->getContentSize().height));
 
     // add the label as a child to this layer
-    this->addChild(label, 1);
+    this->addChild(titleLabel, 1);
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
@@ -99,5 +113,18 @@ void HelloWorld::showUnityAdsFunc(Ref* pSender)
         UnityAdsShow(zoneString);
     } else {
         CCLOG("[UnityAds cpp test] yet cannot show");
+    }
+}
+
+void HelloWorld::rewardPlayer(const char *placementId)
+{
+
+    CCLOG("[UnityAds cpp test] rewarded");
+    const char* targetStr = "rewardedVideo";
+    if(strcmp(placementId, targetStr) == 0){
+        if(titleLabel){
+            const char* text = "Congrats!";
+            titleLabel->setString(text);
+        }
     }
 }

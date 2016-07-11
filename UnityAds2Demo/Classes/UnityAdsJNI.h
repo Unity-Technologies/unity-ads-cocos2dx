@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        //JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_UnityAdsJNI_reward (JNIEnv *, jobject, jstring s);
+        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_UnityAdsJNI_reward (JNIEnv *, jobject, jstring s);
         static char* jstringTostring(JNIEnv* env, jstring jstr);
         extern void UnityAdsInit ();
         extern bool UnityAdsIsReady (const char *parameter);
