@@ -58,8 +58,8 @@ bool HelloWorld::init()
                                            "UnityChan_logo.png",
                                            CC_CALLBACK_1(HelloWorld::showUnityAdsFunc, this));
 
-    showAdItem->setPosition(Vec2(origin.x + showAdItem->getContentSize().width/2 ,
-                                origin.y + showAdItem->getContentSize().height/2));
+    showAdItem->setPosition(Vec2(origin.x + showAdItem->getContentSize().width ,
+                                origin.y + showAdItem->getContentSize().height));
 
     menu->addChild(showAdItem, 1);
 
@@ -70,7 +70,7 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto titleLabel = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    titleLabel = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     
     // position the label on the center of the screen
     titleLabel->setPosition(Vec2(origin.x + visibleSize.width/2,
