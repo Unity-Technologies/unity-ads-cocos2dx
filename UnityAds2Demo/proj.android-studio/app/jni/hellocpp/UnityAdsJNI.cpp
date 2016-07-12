@@ -126,10 +126,10 @@ extern "C" {
     }
 
     std::string UnityAdsGetVersion() {
-        const char *js = env->GetStringUTFChars(returnString, NULL);
-        std::string cs(js);
-        env->ReleaseStringUTFChars(returnString, js);
-        return cs;
+        //const char *js = env->GetStringUTFChars(returnString, NULL);
+        //std::string cs(js);
+        //env->ReleaseStringUTFChars(returnString, js);
+        return "";
     }
 
     bool UnityAdsIsInitialized() {
