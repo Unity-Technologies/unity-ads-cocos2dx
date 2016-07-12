@@ -105,6 +105,77 @@ extern "C" {
 
     }
 
+    bool UnityAdsGetDebugMode() {
+        JniMethodInfo methodInfo;
+
+        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsGetDebugMode", "()Z"))
+        {
+            LOGD("Failed to find static method of UnityAdsGetDebugMode");
+            return false;
+        }
+
+        jboolean ans = (jboolean)methodInfo.env->CallStaticBooleanMethod(methodInfo.classID, methodInfo.methodID);
+
+        bool ret = false;
+        if(JNI_TRUE == ans)ret = true;
+        return ret;
+    }
+
+    std::string UnityAdsGetPlacementState(const char* parameter) {
+        return "";
+    }
+
+    std::string UnityAdsGetVersion() {
+        const char *js = env->GetStringUTFChars(returnString, NULL);
+        std::string cs(js);
+        env->ReleaseStringUTFChars(returnString, js);
+        return cs;
+    }
+
+    bool UnityAdsIsInitialized() {
+        JniMethodInfo methodInfo;
+
+        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsIsInitialized", "()Z"))
+        {
+            LOGD("Failed to find static method of UnityAdsIsInitialized");
+            return false;
+        }
+
+        jboolean ans = (jboolean)methodInfo.env->CallStaticBooleanMethod(methodInfo.classID, methodInfo.methodID);
+
+        bool ret = false;
+        if(JNI_TRUE == ans)ret = true;
+        return ret;
+    }
+
+    bool UnityAdsIsSupported() {
+        JniMethodInfo methodInfo;
+
+        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsIsSupported", "()Z"))
+        {
+            LOGD("Failed to find static method of UnityAdsIsSupported");
+            return false;
+        }
+
+        jboolean ans = (jboolean)methodInfo.env->CallStaticBooleanMethod(methodInfo.classID, methodInfo.methodID);
+
+        bool ret = false;
+        if(JNI_TRUE == ans)ret = true;
+        return ret;
+    }
+
+    void UnityAdsSetDebugMode() {
+        JniMethodInfo methodInfo;
+
+        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsSetDebugMode", "()V"))
+        {
+            LOGD("Failed to find static method of UnityAdsSetDebugMode");
+            return;
+        }
+
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+    }
+
 #ifdef __cplusplus
 }
 #endif
