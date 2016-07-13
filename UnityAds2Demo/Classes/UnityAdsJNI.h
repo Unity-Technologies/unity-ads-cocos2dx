@@ -19,9 +19,10 @@ extern "C" {
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_UnityAdsJNI_reward (JNIEnv *, jobject, jstring s);
         static char* jstringTostring(JNIEnv* env, jstring jstr);
+        static std::string jstringToStdstring(JNIEnv* env, jstring jstr);
 
         // Unity Ads required methods
-        extern void UnityAdsInit ();
+        extern void UnityAdsInit(const char* parameter, bool testMode);
         extern bool UnityAdsIsReady (const char* parameter);
         extern void UnityAdsShow (const char* parameter);
 
@@ -31,7 +32,7 @@ extern "C" {
         extern std::string UnityAdsGetVersion();
         extern bool UnityAdsIsInitialized();
         extern bool UnityAdsIsSupported();
-        extern void UnityAdsSetDebugMode();
+        extern void UnityAdsSetDebugMode(bool debugMode);
 
     #endif
 

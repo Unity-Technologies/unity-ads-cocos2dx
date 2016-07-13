@@ -103,7 +103,9 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::initUnityAdsFunc()
 {
-    UnityAdsInit();
+
+    const char* gameIdAndroid = "1055529";
+    UnityAdsInit(gameIdAndroid, false);
 }
 
 void HelloWorld::showUnityAdsFunc(Ref* pSender)

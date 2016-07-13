@@ -9,7 +9,6 @@ import com.unity3d.ads.log.DeviceLog;
  * Created by solomonli on 7/8/16.
  */
 public class UnityAdsJNI {
-    private static String gameId = "1055529";
     public static Activity activity;
     public static UnityAdsListener unityAdsListener;
 
@@ -17,9 +16,14 @@ public class UnityAdsJNI {
     public static native void reward(String placementId);
 
     // Need update: pass in test mode and game id
-    public static void UnityAdsInitialize(){
+    public static void UnityAdsInitialize(String gameId, boolean testMode){
+        if(gameId == null || gameId.isEmpty()){
+            DeviceLog.debug("[UnityAds Demo] UnityAdsInitialize failed, no gameId specified");
+            return;
+        }
+
         DeviceLog.debug("[UnityAds Demo] UnityAdsInitialize");
-        UnityAds.initialize(activity, gameId, unityAdsListener);
+        UnityAds.initialize(activity, gameId, unityAdsListener, testMode);
     }
 
     public static boolean UnityAdsIsReady(String placementId) {
