@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.unity3d.ads.IUnityAdsListener;
 import com.unity3d.ads.UnityAds;
+import com.unity3d.ads.log.DeviceLog;
 
 /**
  * Created by solomonli on 7/8/16.
@@ -12,21 +13,22 @@ public class UnityAdsListener implements IUnityAdsListener {
 
     @Override
     public void onUnityAdsReady(final String placementId) {
-        Log.d("[UnityAds Demo]", "onUnityAdsReady for placement=" + placementId);
+        DeviceLog.debug("[UnityAds Demo] onUnityAdsReady for placement: " + placementId);
     }
 
     @Override
     public void onUnityAdsStart(String placementId) {
-        Log.d("[UnityAds Demo]", "onUnityAdsStart for placement=" + placementId);
+        DeviceLog.debug("[UnityAds Demo] onUnityAdsStart for placement: " + placementId);
     }
 
     @Override
     public void onUnityAdsFinish(String placementId, UnityAds.FinishState result) {
-        Log.d("[UnityAds Demo]", "onUnityAdsFinish with FinishState=" + result.name() + " for placement=" + placementId);
+        DeviceLog.debug("[UnityAds Demo] onUnityAdsFinish with FinishState: " + result.name() + " for placement: " + placementId);
+        UnityAdsJNI.reward(placementId);
     }
 
     @Override
     public void onUnityAdsError(UnityAds.UnityAdsError error, String message) {
-        Log.d("[UnityAds Demo]", "onUnityAdsError with message=" + message);
+        DeviceLog.debug("[UnityAds Demo] onUnityAdsError with message: " + message);
     }
 }
