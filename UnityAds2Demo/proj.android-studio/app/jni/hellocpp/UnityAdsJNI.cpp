@@ -90,7 +90,7 @@ extern "C" {
 
         JniMethodInfo methodInfo;
 
-        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsIsReady", "(Ljava/lang/String)Z"))
+        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsIsReady", "(Ljava/lang/String;)Z"))
         {
             LOGD("Failed to find static method of UnityAdsIsReady");
             return false;
@@ -109,7 +109,7 @@ extern "C" {
 
         JniMethodInfo methodInfo;
 
-        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsShow", "(Ljava/lang/String)V"))
+        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsShow", "(Ljava/lang/String;)V"))
         {
             LOGD("Failed to find static method of UnityAdsShow");
             return;
@@ -140,7 +140,7 @@ extern "C" {
 
         JniMethodInfo methodInfo;
 
-        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsGetPlacementState", "(Ljava/lang/String)Ljava/lang/String"))
+        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsGetPlacementState", "(Ljava/lang/String;)Ljava/lang/String"))
         {
             LOGD("Failed to find static method of UnityAdsGetPlacementState");
             return false;
@@ -207,7 +207,7 @@ extern "C" {
     void UnityAdsSetDebugMode(bool testMode) {
         JniMethodInfo methodInfo;
 
-        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsSetDebugMode", "(Z)V"))
+        if (! JniHelper::getStaticMethodInfo(methodInfo, CLASS_NAME, "UnityAdsSetDebugMode", "(Z;)V"))
         {
             LOGD("Failed to find static method of UnityAdsSetDebugMode");
             return;

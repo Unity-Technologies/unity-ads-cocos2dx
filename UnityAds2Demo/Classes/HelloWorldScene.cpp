@@ -58,8 +58,8 @@ bool HelloWorld::init()
                                            "UnityChan_logo.png",
                                            CC_CALLBACK_1(HelloWorld::showUnityAdsFunc, this));
 
-    showAdItem->setPosition(Vec2(origin.x + showAdItem->getContentSize().width,
-                                origin.y + showAdItem->getContentSize().height));
+    showAdItem->setPosition(Vec2(origin.x + showAdItem->getContentSize().width + 20,
+                                origin.y + showAdItem->getContentSize().height + 20));
 
     menu->addChild(showAdItem, 1);
 
@@ -105,7 +105,7 @@ void HelloWorld::initUnityAdsFunc()
 {
 
     const char* gameIdAndroid = "1055529";
-    UnityAdsInit(gameIdAndroid, false);
+    UnityAdsInit(gameIdAndroid, true);
 }
 
 void HelloWorld::showUnityAdsFunc(Ref* pSender)
