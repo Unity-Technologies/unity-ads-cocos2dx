@@ -9,20 +9,19 @@ import com.unity3d.ads.log.DeviceLog;
  * Created by solomonli on 7/8/16.
  */
 public class UnityAdsJNI {
+
     public static Activity activity;
     public static UnityAdsListener unityAdsListener;
-
 
     public static native void reward(String placementId);
 
     // Need update: pass in test mode and game id
     public static void UnityAdsInitialize(String gameId, boolean testMode){
+        DeviceLog.debug("[UnityAds Demo] UnityAdsInitialize");
         if(gameId == null || gameId.isEmpty()){
             DeviceLog.debug("[UnityAds Demo] UnityAdsInitialize failed, no gameId specified");
             return;
         }
-
-        DeviceLog.debug("[UnityAds Demo] UnityAdsInitialize");
         UnityAds.initialize(activity, gameId, unityAdsListener, testMode);
     }
 
@@ -42,7 +41,6 @@ public class UnityAdsJNI {
             UnityAds.show(activity, placementId);
         }
     }
-
 
     // Other methods, excluded methods that are unreasonable to expose to cpp layer
 
