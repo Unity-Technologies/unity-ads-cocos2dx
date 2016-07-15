@@ -45,10 +45,10 @@ static AppDelegate s_sharedApplication;
     // Override point for customization after application launch.
 
     // Add the view controller's view to the window and display.
-    window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    _window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
 
     // Init the CCEAGLView
-    CCEAGLView *eaglView = [CCEAGLView viewWithFrame: [window bounds]
+    CCEAGLView *eaglView = [CCEAGLView viewWithFrame: [_window bounds]
                                          pixelFormat: (NSString*)cocos2d::GLViewImpl::_pixelFormat
                                          depthFormat: cocos2d::GLViewImpl::_depthFormat
                                   preserveBackbuffer: NO
@@ -68,15 +68,15 @@ static AppDelegate s_sharedApplication;
     if ( [[UIDevice currentDevice].systemVersion floatValue] < 6.0)
     {
         // warning: addSubView doesn't work on iOS6
-        [window addSubview: _viewController.view];
+        [_window addSubview: _viewController.view];
     }
     else
     {
         // use this method on ios6
-        [window setRootViewController:_viewController];
+        [_window setRootViewController:_viewController];
     }
 
-    [window makeKeyAndVisible];
+    [_window makeKeyAndVisible];
 
     [[UIApplication sharedApplication] setStatusBarHidden:true];
 
@@ -141,7 +141,7 @@ static AppDelegate s_sharedApplication;
 
 
 - (void)dealloc {
-    [window release];
+    [_window release];
     [super dealloc];
 }
 

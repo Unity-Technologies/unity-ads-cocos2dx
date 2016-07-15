@@ -10,6 +10,8 @@
 #import <UnityAds/UnityAds.h>
 
 
-@interface UnityAdsBridge : NSObject<UnityAdsDelegate>
+@interface UnityAdsBridge : UIViewController<UnityAdsDelegate>
+
++ (UIViewController* ) viewController;
 
 @end

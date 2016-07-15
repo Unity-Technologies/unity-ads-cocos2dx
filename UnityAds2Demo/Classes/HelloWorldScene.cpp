@@ -103,14 +103,19 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::initUnityAdsFunc()
 {
+    const char* gameId = "1055529"; // for Android
 
-    const char* gameIdAndroid = "1055529";
-    UnityAdsInit(gameIdAndroid, true);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    gameId = "1076532";
+#endif
+    
+    UnityAdsInit(gameId, false);
 }
 
 void HelloWorld::showUnityAdsFunc(Ref* pSender)
 {
-    const char* zoneString = "rewardedVideo";
+    const char* zoneString = "video";
+    
     if(UnityAdsIsReady(zoneString)) {
         UnityAdsShow(zoneString);
     } else {
