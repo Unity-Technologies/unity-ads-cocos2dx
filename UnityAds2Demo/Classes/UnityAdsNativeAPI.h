@@ -35,6 +35,12 @@ extern "C" {
         extern void UnityAdsSetDebugMode(bool debugMode);
 
     #endif
+    
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        void UnityAdsInit (const char *parameter, bool testMode);
+        bool UnityAdsIsReady (const char *parameter);
+        void UnityAdsShow (const char *parameter);
+    #endif
 
 #ifdef __cplusplus
 }

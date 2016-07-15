@@ -145,5 +145,12 @@ static AppDelegate s_sharedApplication;
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Unity Ads
+
+- (void)setupUnityAds {
+    
+}
+
 
 @end
