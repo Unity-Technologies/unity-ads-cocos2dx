@@ -45,12 +45,10 @@ BundleArtifacts
 .vs/
 
 # Ignore files build by ndk and eclipse
-libs/
+UnityAds2Demo/proj.android-studio/app/libs/*
 bin/
 obj/
 gen/
-assets/
-local.properties
 
 # Ignore python compiled files
 *.pyc
@@ -125,7 +123,6 @@ tests/*/proj.android-studio/app/build.xml
 tests/*/proj.android-studio/app/proguard-project.txt
 
 # Android
-project.properties
 *.iml
 
 # Ignore prebuilt libraries folder

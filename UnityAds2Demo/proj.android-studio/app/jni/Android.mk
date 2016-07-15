@@ -16,7 +16,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HelloWorldScene.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
-                    hellocpp/UnityAdsJNI.h
+                    hellocpp/UnityAdsNativeAPI.h
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END

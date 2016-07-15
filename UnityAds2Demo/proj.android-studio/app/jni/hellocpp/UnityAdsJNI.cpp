@@ -2,7 +2,7 @@
 // Created by Solomon Li on 7/8/16.
 //
 
-#include "UnityAdsJNI.h"
+#include "UnityAdsNativeAPI.h"
 #include <android/log.h>
 #include "HelloWorldScene.h"
 #include "AppDelegate.h"
