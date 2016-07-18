@@ -2,7 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
-#include "UnityAdsJNI.h"
+#include "UnityAdsNativeAPI.h"
 
 class HelloWorld : public cocos2d::Layer
 {

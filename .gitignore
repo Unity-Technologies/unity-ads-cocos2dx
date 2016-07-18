@@ -45,12 +45,10 @@ BundleArtifacts
 .vs/
 
 # Ignore files build by ndk and eclipse
-libs/
+UnityAds2Demo/proj.android-studio/app/libs/*
 bin/
 obj/
 gen/
-assets/
-local.properties
 
 # Ignore python compiled files
 *.pyc
@@ -125,7 +123,6 @@ tests/*/proj.android-studio/app/build.xml
 tests/*/proj.android-studio/app/proguard-project.txt
 
 # Android
-project.properties
 *.iml
 
 # Ignore prebuilt libraries folder
@@ -162,7 +159,6 @@ tests/cpp-tests/Resources/audio
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
 ## Build generated
-build/
 DerivedData
 
 ## Various settings
@@ -210,3 +206,6 @@ Carthage/Build
 
 fastlane/report.xml
 fastlane/screenshots
+UnityAds2Demo/proj.ios_mac/build/UnityAds2Demo.build
+UnityAds2Demo/cocos2d/cocos/platform/android/libcocos2dx/build/intermediates
+UnityAds2Demo/cocos2d/cocos/platform/android/libcocos2dx/build/outputs

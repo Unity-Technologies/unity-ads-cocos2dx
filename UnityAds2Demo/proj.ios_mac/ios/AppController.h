@@ -6,6 +6,7 @@
     UIWindow *window;
 }
 
+@property(nonatomic, strong) UIWindow *window;
 @property(nonatomic, readonly) RootViewController* viewController;
 
 @end
