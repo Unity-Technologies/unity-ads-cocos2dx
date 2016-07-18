@@ -114,7 +114,7 @@ void HelloWorld::initUnityAdsFunc()
 
 void HelloWorld::showUnityAdsFunc(Ref* pSender)
 {
-    const char* zoneString = "video";
+    const char* zoneString = "rewardedVideo";
     
     if(UnityAdsIsReady(zoneString)) {
         UnityAdsShow(zoneString);

@@ -37,9 +37,19 @@ extern "C" {
     #endif
     
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+        // Unity Ads required methods
         void UnityAdsInit (const char *parameter, bool testMode);
         bool UnityAdsIsReady (const char *parameter);
         void UnityAdsShow (const char *parameter);
+    
+        // Unity Ads assist methods
+        bool UnityAdsGetDebugMode();
+        std::string UnityAdsGetPlacementState(const char* parameter);
+        std::string UnityAdsGetVersion();
+        bool UnityAdsIsInitialized();
+        bool UnityAdsIsSupported();
+        void UnityAdsSetDebugMode(bool debugMode);
     #endif
 
 #ifdef __cplusplus

@@ -9,6 +9,7 @@
 #import "UnityAdsNativeAPI.h"
 #import "UnityAdsBridge.h"
 #import "AppController.h"
+#import "HelloWorldScene.h"
 
 @implementation UnityAdsBridge
 
@@ -33,6 +34,13 @@
 }
 - (void)unityAdsDidFinish:(NSString *)placementId
           withFinishState:(UnityAdsFinishState)state{
+    auto scene = cocos2d::Director::getInstance()->getRunningScene()->getChildren().at(1);
+    if (typeid(*scene) == typeid(HelloWorld)) {
+        HelloWorld* gameScene = static_cast<HelloWorld*>(scene);
+        const char *placementIdC = [placementId UTF8String];
+        gameScene->rewardPlayer(placementIdC);
+    }
+    
 }
 
 @end
@@ -58,4 +66,31 @@ bool UnityAdsIsReady (const char *parameter){
 void UnityAdsShow (const char *parameter){
     NSString* placementId = [NSString stringWithFormat:@"%s", parameter];
     [UnityAds show:[UnityAdsBridge viewController] placementId:placementId];
+}
+
+bool UnityAdsGetDebugMode() {
+    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
+    return false;
+}
+
+std::string UnityAdsGetPlacementState(const char* parameter) {
+    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
+    return "";
+}
+
+std::string UnityAdsGetVersion() {
+    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
+    return "";
+}
+
+bool UnityAdsIsInitialized() {
+    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
+    return false;
+}
+bool UnityAdsIsSupported() {
+    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
+    return false;
+}
+void UnityAdsSetDebugMode(bool debugMode) {
+    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
 }
