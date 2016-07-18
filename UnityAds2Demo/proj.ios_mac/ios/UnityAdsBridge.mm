@@ -34,6 +34,7 @@
 }
 - (void)unityAdsDidFinish:(NSString *)placementId
           withFinishState:(UnityAdsFinishState)state{
+    
     auto scene = cocos2d::Director::getInstance()->getRunningScene()->getChildren().at(1);
     if (typeid(*scene) == typeid(HelloWorld)) {
         HelloWorld* gameScene = static_cast<HelloWorld*>(scene);
@@ -70,27 +71,41 @@ void UnityAdsShow (const char *parameter){
 
 bool UnityAdsGetDebugMode() {
     NSLog(@"[UnityAds] UnityAdsGetDebugMode");
-    return false;
+    return [UnityAds getDebugMode];
 }
 
 std::string UnityAdsGetPlacementState(const char* parameter) {
-    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
-    return "";
+    NSLog(@"[UnityAds] UnityAdsGetPlacementState");
+    UnityAdsPlacementState state = [UnityAds getPlacementState];
+    switch(state){
+        case kUnityAdsPlacementStateReady:
+            return "kUnityAdsPlacementStateReady";
+        case kUnityAdsPlacementStateNoFill:
+            return "kUnityAdsPlacementStateNoFill";
+        case kUnityAdsPlacementStateWaiting:
+            return "kUnityAdsPlacementStateWaiting";
+        case kUnityAdsPlacementStateDisabled:
+            return "kUnityAdsPlacementStateDisabled";
+        case kUnityAdsPlacementStateNotAvailable:
+            return "kUnityAdsPlacementStateNotAvailable";
+    }
 }
 
 std::string UnityAdsGetVersion() {
-    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
-    return "";
+    NSLog(@"[UnityAds] UnityAdsGetVersion");
+    std::string ret = std::string([[UnityAds getVersion] UTF8String]);
+    return ret;
 }
 
 bool UnityAdsIsInitialized() {
-    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
-    return false;
+    NSLog(@"[UnityAds] UnityAdsIsInitialized");
+    return [UnityAds isInitialized];
 }
 bool UnityAdsIsSupported() {
-    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
-    return false;
+    NSLog(@"[UnityAds] UnityAdsIsSupported");
+    return [UnityAds isSupported];
 }
 void UnityAdsSetDebugMode(bool debugMode) {
-    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
+    NSLog(@"[UnityAds] UnityAdsSetDebugMode");
+    [UnityAds setDebugMode:debugMode];
 }
