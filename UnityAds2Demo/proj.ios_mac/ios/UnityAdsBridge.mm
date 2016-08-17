@@ -27,21 +27,25 @@
 - (void)unityAdsReady:(NSString *)placementId {
     NSLog(@"[UnityAds delegate] unityAdsReady with placementId=%@", placementId);
 }
+
 - (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message{
     NSLog(@"[UnityAds delegate] unityAdsDidError with message=%@ , and error=%ld", message, error);
 }
+
 - (void)unityAdsDidStart:(NSString *)placementId{
+    
 }
+
 - (void)unityAdsDidFinish:(NSString *)placementId
           withFinishState:(UnityAdsFinishState)state{
-    
-    auto scene = cocos2d::Director::getInstance()->getRunningScene()->getChildren().at(1);
-    if (typeid(*scene) == typeid(HelloWorld)) {
-        HelloWorld* gameScene = static_cast<HelloWorld*>(scene);
-        const char *placementIdC = [placementId UTF8String];
-        gameScene->rewardPlayer(placementIdC);
+    if(state == kUnityAdsFinishStateCompleted) {
+        auto scene = cocos2d::Director::getInstance()->getRunningScene()->getChildren().at(1);
+        if (typeid(*scene) == typeid(HelloWorld)) {
+            HelloWorld* gameScene = static_cast<HelloWorld*>(scene);
+            const char *placementIdC = [placementId UTF8String];
+            gameScene->rewardPlayer(placementIdC);
+        }
     }
-    
 }
 
 @end
@@ -59,11 +63,13 @@ void UnityAdsInit (const char *gameIdParameter, bool testMode) {
     NSString* gameId = [NSString stringWithFormat:@"%s", gameIdParameter];
     [UnityAds initialize:gameId delegate:bridge testMode:testMode];
 }
+
 bool UnityAdsIsReady (const char *parameter){
     NSString* placementId = [NSString stringWithFormat:@"%s", parameter];
     NSLog(@"[UnityAds] UnityAdsIsReady for placement=%@", placementId);
     return [UnityAds isReady:placementId];
 }
+
 void UnityAdsShow (const char *parameter){
     NSString* placementId = [NSString stringWithFormat:@"%s", parameter];
     [UnityAds show:[UnityAdsBridge viewController] placementId:placementId];
@@ -101,10 +107,12 @@ bool UnityAdsIsInitialized() {
     NSLog(@"[UnityAds] UnityAdsIsInitialized");
     return [UnityAds isInitialized];
 }
+
 bool UnityAdsIsSupported() {
     NSLog(@"[UnityAds] UnityAdsIsSupported");
     return [UnityAds isSupported];
 }
+
 void UnityAdsSetDebugMode(bool debugMode) {
     NSLog(@"[UnityAds] UnityAdsSetDebugMode");
     [UnityAds setDebugMode:debugMode];
