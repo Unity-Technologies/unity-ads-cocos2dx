@@ -17,13 +17,14 @@ We are using **Android Studio** or **XCode** for this tutorial.
   2. [Add listener & callbacks](#a2)
 
 ###[iOS Setup](#ios-header)
-  1. [Import Unity Ads](i1)
-  2. [Add delegate & callbacks](i1)
+  1. [Import Unity Ads](#i1)
+  2. [Add delegate & callbacks](#i1)
 
-###[Cocos2dx Integration](#ccdx-header)
-  1. [Initialize Unity Ads](c1)
-  2. [Show an Ad](c1)
-  3. [Add rewarded integration](c1)
+###[Use UnityAds Wrapper API in Cocos2dx](#ccdx-header)
+  1. [Wrapper Files](#c1)
+  2. [Initialize Unity Ads](#c2)
+  2. [Show an Ad](#c3)
+  3. [Add rewarded integration](#c4)
   
 ---
  
@@ -146,9 +147,10 @@ In **AppActivity.java** (or any activity that will show ads), don't forget to in
 
 
 <a name="ios-header"/>
-#iOS integration (Swift)
+#iOS integration
 
 --- 
+
 
 <a name="i1"/>
 ### 1. Import Unity Ads
@@ -157,84 +159,262 @@ From the downloaded Unity Ads 2.0 folder, locate **UnityAds.framework**.
 Drag-and-drop **UnityAds.framework** into your XCode project (and copy it).
 
 <a name="i2"/>
-### 2. Add Delegate & Callbacks
-In **ViewController.m** (or any ViewController that will show ads), import the UnityAds namespace.
+### 2. Add UnityAdsBridge Objective C++ class
 
-```Swift
-import UnityAds
+Create **UnityAdsBridge** class, and rename the implementation file to **UnityAdsBridge.mm**. You can simple use these files from this project for they are part of the wrapper.
+
+
+**UnityAdsBridge.h** source code
+
+```ObjC
+	@interface UnityAdsBridge : UIViewController<UnityAdsDelegate>
+	
+	+ (UIViewController* ) viewController;
+	
+	@end
 ```
-Make the **ViewController** a **UnityAdsDelegate** and add the four `@required` callbacks.
 
-```swift 
+In **UnityAdsBridge.mm** source code, we have 2 parts which are **UnityAdsDelegate** and api exposed.
 
-import UnityAds
+**UnityAdsDelegate** part
+```ObjC 
 
-class ViewController: UIViewController, UnityAdsDelegate {
+- (void)unityAdsReady:(NSString *)placementId {
+    NSLog(@"[UnityAds delegate] unityAdsReady with placementId=%@", placementId);
+}
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-  }
+- (void)unityAdsDidError:(UnityAdsError)error withMessage:(NSString *)message{
+    NSLog(@"[UnityAds delegate] unityAdsDidError with message=%@ , and error=%ld", message, error);
+}
 
-  func unityAdsReady(placementId: String) {
-    //Called when Unity Ads is ready to show an ad
-  }
+- (void)unityAdsDidStart:(NSString *)placementId{
+    
+}
 
-  func unityAdsDidStart(placementId: String) {
-    //Called when Uniy Ads begins playing a video
-  }
+- (void)unityAdsDidFinish:(NSString *)placementId
+          withFinishState:(UnityAdsFinishState)state{
+    if(state == kUnityAdsFinishStateCompleted) {
+        auto scene = cocos2d::Director::getInstance()->getRunningScene()->getChildren().at(1);
+        if (typeid(*scene) == typeid(HelloWorld)) {
+            HelloWorld* gameScene = static_cast<HelloWorld*>(scene);
+            const char *placementIdC = [placementId UTF8String];
+            gameScene->rewardPlayer(placementIdC);
+        }
+    }
+}
 
-  func unityAdsDidFinish(placementId: String, withFinishState state: UnityAdsFinishState) {
-    //Called when a video completes
-  }
-  
-  func unityAdsDidError(error: UnityAdsError, withMessage message: String) {
-  }
+@end
+
+```
+
+API part. This implementation is trying to expose almost all APIs from **UnityAds** class, but except those useless for C++ layer
+
+```ObjC
+
+void UnityAdsInit (const char *gameIdParameter, bool testMode) {
+    
+    NSLog(@"[UnityAds] UnityAdsInit");
+    
+    UnityAdsBridge* bridge = [UnityAdsBridge new];
+    NSString* gameId = [NSString stringWithFormat:@"%s", gameIdParameter];
+    [UnityAds initialize:gameId delegate:bridge testMode:testMode];
+}
+
+bool UnityAdsIsReady (const char *parameter){
+    NSString* placementId = [NSString stringWithFormat:@"%s", parameter];
+    NSLog(@"[UnityAds] UnityAdsIsReady for placement=%@", placementId);
+    return [UnityAds isReady:placementId];
+}
+
+void UnityAdsShow (const char *parameter){
+    NSString* placementId = [NSString stringWithFormat:@"%s", parameter];
+    [UnityAds show:[UnityAdsBridge viewController] placementId:placementId];
+}
+
+bool UnityAdsGetDebugMode() {
+    NSLog(@"[UnityAds] UnityAdsGetDebugMode");
+    return [UnityAds getDebugMode];
+}
+
+std::string UnityAdsGetPlacementState(const char* parameter) {
+    NSLog(@"[UnityAds] UnityAdsGetPlacementState");
+    UnityAdsPlacementState state = [UnityAds getPlacementState];
+    switch(state){
+        case kUnityAdsPlacementStateReady:
+            return "kUnityAdsPlacementStateReady";
+        case kUnityAdsPlacementStateNoFill:
+            return "kUnityAdsPlacementStateNoFill";
+        case kUnityAdsPlacementStateWaiting:
+            return "kUnityAdsPlacementStateWaiting";
+        case kUnityAdsPlacementStateDisabled:
+            return "kUnityAdsPlacementStateDisabled";
+        case kUnityAdsPlacementStateNotAvailable:
+            return "kUnityAdsPlacementStateNotAvailable";
+    }
+}
+
+std::string UnityAdsGetVersion() {
+    NSLog(@"[UnityAds] UnityAdsGetVersion");
+    std::string ret = std::string([[UnityAds getVersion] UTF8String]);
+    return ret;
+}
+
+bool UnityAdsIsInitialized() {
+    NSLog(@"[UnityAds] UnityAdsIsInitialized");
+    return [UnityAds isInitialized];
+}
+
+bool UnityAdsIsSupported() {
+    NSLog(@"[UnityAds] UnityAdsIsSupported");
+    return [UnityAds isSupported];
+}
+
+void UnityAdsSetDebugMode(bool debugMode) {
+    NSLog(@"[UnityAds] UnityAdsSetDebugMode");
+    [UnityAds setDebugMode:debugMode];
+}
+
+```
+
+<a name="ccdx-header"/>
+#Use UnityAds Wrapper API in Cocos2dx
+
+<a name="c1"/>
+### 1. The Wrapper File
+In this wrapper project, we are using the wrapper file `UnityAdsNativeAPI.h` to expose Unity Ads API .
+
+The implementations of this file have been put under iOS and Android separate projects.
+
+To use this wrapper file, we simply include `UnityAdsNativeAPI.h` in where you would like to use it. In this sample game, we include this API file in `HelloWorldScene.h` file.
+
+
+<a name="c2"/>
+### 2. Initialize Unity Ads
+
+In order not to muddle the game logic, we put Unity Ads initialize code in a separate function.
+
+Declare the function in `HelloWorldScene.h` file.
+
+```C
+	void initUnityAdsFunc();
+```
+
+Implement the initialization function in `HelloWorldScene.cpp` file.
+
+```C
+void HelloWorld::initUnityAdsFunc()
+{
+    const char* gameId = "1055529"; // for Android
+
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	    gameId = "1076532";
+	#endif
+    
+    UnityAdsInit(gameId, false);
 }
 ```
-
-<a name="i3"/>
-### 3. Initialize Unity Ads
-Initialize Unity Ads by calling `UnityAds.initialize("YOUR_GAME_ID", delegate: self)`
 
 > Note: "YOUR_GAME_ID" is a 7-digit number from the [Unity Ads dashboard](https://dashboard.unityads.unity3d.com). (For example, "1091553")
 
-```swift
- override func viewDidLoad() {
-    super.viewDidLoad()
-    UnityAds.initialize("YOUR_GAME_ID", delegate: self)
-  }
+
+Call the initialization function when game init, just after layer just initialized.
+
+```C
+	......
+	
+    if ( !Layer::init() )
+    {
+        return false;
+    }
+
+    this->initUnityAdsFunc();
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    ......
 ```
 
-<a name="i4"/>
-### 4. Show an Ad
-In the example project, a button is used to show an ad.
 
-```swift
-@IBAction func AdButtonPressed() {
-  if(UnityAds.isReady("rewardedVideo")){ //check that a video is ready & the placement is valid
-    UnityAds.show(self, placementId: "rewardedVideo")
-  }
+<a name="c3"/>
+### 3. Show an Ad
+
+In order not to muddle the game logic, we put Unity Ads show an ad code in a separate function.
+
+Declare the function in `HelloWorldScene.h` file.
+```C
+	void showUnityAdsFunc(Ref* pSender);
+```
+
+Implement the show an ad function in `HelloWorldScene.cpp` file.
+
+```C
+void HelloWorld::showUnityAdsFunc(Ref* pSender)
+{
+    const char* zoneString = "rewardedVideo";
+    
+    if(UnityAdsIsReady(zoneString)) {
+        UnityAdsShow(zoneString);
+    } else {
+        CCLOG("[UnityAds cpp test] yet cannot show");
+    }
 }
-
 ```
-> note: By default, leaving the *placement* option blank will show an ad with the default **"video"** placement. (5-second skip)
-> Find more information on placements in our [docs](http://unityads.unity3d.com/help/monetization/placements).
 
-<a name="i5"/>
-### 5. Reward the Player
-The callback `unityAdsDidFinish(...)` is called when a video finishes.
+Add a button enabling the player to show an ad, after adding the close button.
 
-Use `unityAdsDidFinish(...)` to reward the player if they watched the entire ad.
+```C
+	......
+	
+    // create menu, it's an autorelease object
+    auto menu = Menu::create(closeItem, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 1);
 
-```swift
-func unityAdsDidFinish(placementId: String, withFinishState state: UnityAdsFinishState) {
-  if(state != .Skipped){
-    //video was not skipped, reward the player!
-    rewardUserForWatchingAnAd()
-  }
+    // Add show ad button
+    auto showAdItem = MenuItemImage::create(
+                                           "UnityChan_logo.png",
+                                           "UnityChan_logo.png",
+                                           CC_CALLBACK_1(HelloWorld::showUnityAdsFunc, this));
+
+    showAdItem->setPosition(Vec2(origin.x + showAdItem->getContentSize().width + 20,
+                                origin.y + showAdItem->getContentSize().height + 20));
+
+    menu->addChild(showAdItem, 1);
+    
+```
+
+When tapping on this button, it will call `showUnityAdsFunc` function.
+
+
+<a name="c4"/>
+### 4. Add rewarded integration
+
+In order not to muddle the game logic, we put Unity Ads reward code in a separate function.
+
+Declare the function in `HelloWorldScene.h` file.
+```C
+	void rewardPlayer(const char *placementId);
+```
+
+Implement the reward function in `HelloWorldScene.cpp` file.
+
+```C
+void HelloWorld::rewardPlayer(const char *placementId)
+{
+
+    CCLOG("[UnityAds cpp test] rewarded");
+    const char* targetStr = "rewardedVideo";
+    if(strcmp(placementId, targetStr) == 0){
+        if(titleLabel){
+            const char* text = "Congrats!";
+            titleLabel->setString(text);
+        }
+    }
 }
 ```
 
-Example project is available [here](https://github.com/Applifier/Unity-Ads-SDK-2.0-Integration-Examples/tree/master/ios)
+This function is for iOS or Android layer to call, we already exposed this in `UnityAdsBridge.mm` and `UnityAdsJNI.cpp`.
+
 
 ---
