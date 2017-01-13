@@ -9,7 +9,7 @@ Although you do not need integrate Unity Ads in iOS and Android layer, no need i
 And you still need import Unity Ads 2.0 iOS and Android SDK libraries manually as well.
 
 
-[Tutorial of how to use wrapper APIs](tutorial.md)
+[Tutorial of how to use wrapper APIs](TUTORIAL.md)
 
 
 
